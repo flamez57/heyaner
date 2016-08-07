@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* CSS Document */
+*{margin:0;padding:0;}
+body{margin:0;padding:0;font-family:"微软雅黑";}
+
+h2{font-size:36px;font-weight:normal;color:#ccc;text-align:center;}
+a { transition:all 0.3s ease-out; -webkit-transition:all 0.5s ease-out; text-decoration:none; blr:expression(this.onFocus=this.blur());color:#ccc;}
+a { outline:none;}
+a:hover {color:#000;text-decoration:none;}
+.all{width:65%;margin:0 auto;}
+.top_logo{width:100%;}
+.med_font{margin:0 auto;}
+.foot_logo{width:100%;position:relative;margin:20px 0px;}
+
+@media screen and (max-width:640px){
+	h2{font-size:24px;font-weight:normal;color:#ccc;text-align:center;}
+	.all{width:80%;margin:100px auto;}
+}
