@@ -1,0 +1,29 @@
+@charset "utf-8";
+/* CSS Document */
+*{margin:0;padding:0;}
+body{margin:0;padding:0;font-family:"楷体";}
+a:link, a:visited {color:#000;text-decoration:none;}
+a:hover {color:blue;text-decoration:none;}
+ul{ list-style: none outside none;}
+.top{width:70%;margin:0 auto;}
+.fl{float:left;}
+.kuan1{width:100%;}
+.kuan2{width:30%;}
+.fanyi{width:20%;margin-top:13%;float:right;}
+.menu{border:1px solid #111;height:50px;line-height:50px;text-align:center;font-size:36px;background:#5f8a31;}
+.title{line-height: 50px;height:50px;color:#5f8a31;text-align:center;width:40%;}
+.content{width:70%;height:2000px;}
+.foot{width:70%;margin:0 auto;}
+.foot table{width:70%;margin:20px auto;}
+.foot table tr td{width:30%;}
+.tops{display:none;}
+#sj_menu{display:none;}
+@media screen and (max-width:950px){
+	.top{display:none;}
+	.foot{display:none;}
+	.tops{display:block;margin:10px auto;text-align:center;}
+	#sj_menu{display:block;width:100%;height:80px;background:#5f8a31;position: fixed;left: 0;bottom: 0;z-index: 500;}
+	#sj_menu li{position:relative;width:16.5%;float:left;text-align:center;line-height:80px;font-size:34px;color:#fff;}
+	#sj_menu li a{color:#111;text-align:center;line-height: 80px;font-size:34px;}
+	#sj_menu li a:hover{width:100%;height:80px;display:block;background:#fff;}
+}
