@@ -1,0 +1,10 @@
+.coat{float:left;width:23%;margin:1%;}
+.coat img{width:100%;}
+.coats{margin:20px auto;}
+.pages{float:right;width:100%;height:50px;}
+.page{float:right;width:30%;height:50px;line-height:50px;font-size:30px;}
+@media screen and (max-width:950px){
+	.coat{width:100%;}
+	.page{width:65%;font-size:24px;}
+	.content{width:90%;}
+}
