@@ -1,399 +1,140 @@
-var g_aImgInfo=
-[
-	{info: "藏品名", href: './collect.html'},
-	{info: "藏品名", href: './collect.html'},
-	{info: "藏品名", href: './collect.html'},
-	{info: "藏品名", href: './collect.html'},
-	{info: "藏品名", href: './collect.html'},
-	{info: "藏品名", href: './collect.html'}
-];
-
-var oDiv=null;
-var oUlContent=null;
-var oUlBtn=null;
-
-var aLiImg=null;
-var aLiBtn=null;
-
-var oBtnPrev=null;
-var oBtnNext=null;
-
-var oTxtInfo=null;
-var oTxtLength=null;
-
-var oMarkPrev=null;
-var oMarkNext=null;
-
-var g_aTimerImg=[];
-var g_aTimerBtn=[];
-
-var g_oTimerUl=null;
-
-var g_oTimerAutoPlay=null;
-
-var g_aLiBtnAlpha=[];
-
-var g_iNowImg=0;
-
-var g_iZIndexBase=2;
-
-window.onload=function ()
+function css(obj, attr, value)
 {
-	var i=0;
-	
-	//获取各类元素
-	oDiv=document.getElementById('playimages');
-	oUlContent=oDiv.getElementsByTagName('ul')[0];
-	oUlBtn=oDiv.getElementsByTagName('ul')[1];
-	
-	oBtnPrev=oDiv.getElementsByTagName('div')[0];
-	oBtnNext=oDiv.getElementsByTagName('div')[1];
-	
-	oTxtInfo=oDiv.getElementsByTagName('div')[2];
-	oTxtLength=oDiv.getElementsByTagName('div')[3];
-	
-	oMarkPrev=oDiv.getElementsByTagName('a')[0];
-	oMarkNext=oDiv.getElementsByTagName('a')[1];
-	
-	aLiImg=oUlContent.getElementsByTagName('li');
-	aLiBtn=oUlBtn.getElementsByTagName('li');
-	
-	//为元素添加属性
-	oTxtInfo.innerHTML=g_aImgInfo[0].info;
-	oTxtLength.innerHTML='1/'+aLiImg.length;
-	
-	oMarkPrev.href=g_aImgInfo[0].href;
-	oMarkNext.href=g_aImgInfo[0].href;
-	
-	oBtnPrev.miaovOpacity=0;
-	oBtnNext.miaovOpacity=0;
-	
-	oBtnPrev.miaovTime=0;
-	oBtnNext.miaovTime=0;
-	
-	oUlBtn.style.width=aLiBtn[0].offsetWidth*aLiBtn.length+'px';
-	
-	//为元素添加事件
-	function showPrev()
+	if(arguments.length==2)
 	{
-		showBtn(oBtnPrev);
-		hideBtn(oBtnNext);
-		
-		stopAutoPlay();
-	}
-	
-	function showNext()
-	{
-		hideBtn(oBtnPrev);
-		showBtn(oBtnNext);
-		
-		stopAutoPlay();
-	}
-	
-	function hideAll()
-	{
-		hideBtn(oBtnPrev);
-		hideBtn(oBtnNext);
-		
-		startAutoPlay();
-	}
-	
-	oMarkPrev.onmouseover	=showPrev;
-	oBtnPrev.onmouseover	=showPrev;
-	oMarkNext.onmouseover	=showNext;
-	oBtnNext.onmouseover	=showNext;
-	
-	oBtnPrev.onmouseout		=hideAll;
-	oBtnNext.onmouseout		=hideAll;
-	oMarkPrev.onmouseout	=hideAll;
-	oMarkNext.onmouseout	=hideAll;
-	
-	oBtnPrev.onmousedown	=gotoPrev;
-	oBtnNext.onmousedown	=gotoNext;
-	
-	oUlBtn.onmouseover		=stopAutoPlay;
-	oUlBtn.onmouseout		=startAutoPlay;
-	
-	for(i=0;i<aLiBtn.length;i++)
-	{
-		aLiBtn[i].miaovIndex=i;
-		aLiBtn[i].onmouseover=function ()
+		if(attr!='opacity')
 		{
-			if(g_iNowImg!=this.miaovIndex)
-			{
-				showLiBtn(this.miaovIndex);
-			}
-		};
-		aLiBtn[i].onmouseout=function ()
-		{
-			if(g_iNowImg!=this.miaovIndex)
-			{
-				hideLiBtn(this.miaovIndex);
-			}
-		};
-		aLiBtn[i].onmousedown=function ()
-		{
-			gotoImg(this.miaovIndex);
-		};
-		g_aTimerBtn[i]=null;
-		g_aLiBtnAlpha[i]=60;
-	}
-	
-	g_aLiBtnAlpha[0]=100;
-	
-	startAutoPlay();
-};
-
-function showBtn(oBtn)
-{
-	if(oBtn.miaovTimer)
-	{
-		clearInterval(oBtn.miaovTimer);
-	}
-	
-	oBtn.miaovTimer=setInterval
-	(
-		function ()
-		{
-			if(oBtn.miaovOpacity<100)
-			{
-				oBtn.miaovOpacity+=10;
-				
-				oBtn.style.display='block';
-				oBtn.style.filter="alpha(opacity:"+oBtn.miaovOpacity+")";
-				oBtn.style.opacity=oBtn.miaovOpacity/100;
-			}
-			else
-			{
-				oBtn.style.filter="";
-				oBtn.style.opacity="";
-				
-				clearInterval(oBtn.miaovTimer);
-				oBtn.miaovTimer=0;
-			}
-		}, 30
-	);
-}
-
-function hideBtn(oBtn)
-{
-	if(oBtn.miaovTimer)
-	{
-		clearInterval(oBtn.miaovTimer);
-	}
-	
-	oBtn.miaovTimer=setInterval
-	(
-		function ()
-		{
-			if(oBtn.miaovOpacity>0)
-			{
-				oBtn.miaovOpacity-=10;
-				
-				oBtn.style.filter="alpha(opacity:"+oBtn.miaovOpacity+")";
-				oBtn.style.opacity=oBtn.miaovOpacity/100;
-			}
-			else
-			{
-				oBtn.style.display='none';
-				oBtn.style.filter="";
-				oBtn.style.opacity="";
-				
-				clearInterval(oBtn.miaovTimer);
-				oBtn.miaovTimer=0;
-			}
-		}, 30
-	);
-}
-
-function gotoImg(index)
-{
-	if(index==g_iNowImg)
-	{
-		return;
-	}
-	
-	aLiImg[index].style.height='0px';
-	aLiImg[index].style.display='block';
-	aLiImg[index].style.zIndex=g_iZIndexBase++;
-	
-	if(g_aTimerImg[index])
-	{
-		clearInterval(g_aTimerImg[index]);
-	}
-	g_aTimerImg[index]=setInterval("slideDown("+index+")", 30);
-	
-	for(i=0;i<aLiBtn.length;i++)
-	{
-		if(i==index)
-		{
-			showLiBtn(i);
+			return parseInt(obj.currentStyle?obj.currentStyle[attr]:document.defaultView.getComputedStyle(obj, false)[attr]);
 		}
 		else
 		{
-			hideLiBtn(i);
+			return Math.round(100*parseFloat(obj.currentStyle?obj.currentStyle[attr]:document.defaultView.getComputedStyle(obj, false)[attr]));
+		}
+	}
+	else if(arguments.length==3)
+		switch(attr)
+		{
+			case 'width':
+			case 'height':
+			case 'paddingLeft':
+			case 'paddingTop':
+			case 'paddingRight':
+			case 'paddingBottom':
+				value=Math.max(value,0);
+			case 'left':
+			case 'top':
+			case 'marginLeft':
+			case 'marginTop':
+			case 'marginRight':
+			case 'marginBottom':
+				obj.style[attr]=value+'px';
+				break;
+			case 'opacity':
+				obj.style.filter="alpha(opacity:"+value+")";
+				obj.style.opacity=value/100;
+				break;
+			default:
+				obj.style[attr]=value;
+		}
+	
+	return function (attr_in, value_in){css(obj, attr_in, value_in)};
+}
+
+var MIAOV_MOVE_TYPE={
+	BUFFER: 1,
+	FLEX: 2
+};
+
+function miaovStopMove(obj)
+{
+	clearInterval(obj.timer);
+}
+
+function miaovStartMove(obj, oTarget, iType, fnCallBack, fnDuring)
+{
+	var fnMove=null;
+	if(obj.timer)
+	{
+		clearInterval(obj.timer);
+	}
+	
+	switch(iType)
+	{
+		case MIAOV_MOVE_TYPE.BUFFER:
+			fnMove=miaovDoMoveBuffer;
+			break;
+		case MIAOV_MOVE_TYPE.FLEX:
+			fnMove=miaovDoMoveFlex;
+			break;
+	}
+	
+	obj.timer=setInterval(function (){
+		fnMove(obj, oTarget, fnCallBack, fnDuring);
+	}, 30);
+}
+
+function miaovDoMoveBuffer(obj, oTarget, fnCallBack, fnDuring)
+{
+	var bStop=true;
+	var attr='';
+	var speed=0;
+	var cur=0;
+	
+	for(attr in oTarget)
+	{
+		cur=css(obj, attr);
+		if(oTarget[attr]!=cur)
+		{
+			bStop=false;
+			
+			speed=(oTarget[attr]-cur)/5;
+			speed=speed>0?Math.ceil(speed):Math.floor(speed);
+			
+			css(obj, attr, cur+speed);
 		}
 	}
 	
-	moveUlBtn(index);
+	if(fnDuring)fnDuring.call(obj);
 	
-	oTxtInfo.innerHTML=g_aImgInfo[index].info;
-	oTxtLength.innerHTML=(index+1)+'/'+aLiImg.length;
-	
-	oMarkPrev.href=g_aImgInfo[index].href;
-	oMarkNext.href=g_aImgInfo[index].href;
-	
-	g_iNowImg=index;
-}
-
-function slideDown(index)
-{
-	var h=aLiImg[index].offsetHeight+10;
-	
-	if(h>=oUlContent.offsetHeight)
+	if(bStop)
 	{
-		h=oUlContent.offsetHeight;
+		clearInterval(obj.timer);
+		obj.timer=null;
 		
-		clearInterval(g_aTimerImg[index]);
-		g_aTimerImg[index]=null;
+		if(fnCallBack)fnCallBack.call(obj);
+	}
+}
+
+function miaovDoMoveFlex(obj, oTarget, fnCallBack, fnDuring)
+{
+	var bStop=true;
+	var attr='';
+	var speed=0;
+	var cur=0;
+	
+	for(attr in oTarget)
+	{
+		if(!obj.oSpeed)obj.oSpeed={};
+		if(!obj.oSpeed[attr])obj.oSpeed[attr]=0;
+		cur=css(obj, attr);
+		if(Math.abs(oTarget[attr]-cur)>=1 || Math.abs(obj.oSpeed[attr])>=1)
+		{
+			bStop=false;
+			
+			obj.oSpeed[attr]+=(oTarget[attr]-cur)/5;
+			obj.oSpeed[attr]*=0.7;
+			
+			css(obj, attr, cur+obj.oSpeed[attr]);
+		}
 	}
 	
-	aLiImg[index].style.height=h+'px';
-}
-
-function gotoNext()
-{
-	gotoImg((g_iNowImg+1)%aLiImg.length);
-}
-
-function gotoPrev()
-{
-	gotoImg((g_iNowImg-1+aLiImg.length)%aLiImg.length);
-}
-
-function showLiBtn(index)
-{
-	if(g_aTimerBtn[index])
-	{
-		clearInterval(g_aTimerBtn[index]);
-	}
-	g_aTimerBtn[index]=setInterval("showLiBtnInner("+index+")", 30);
-}
-
-function showLiBtnInner(index)
-{
-	var alpha=g_aLiBtnAlpha[index]+10;
+	if(fnDuring)fnDuring.call(obj);
 	
-	if(alpha>=100)
+	if(bStop)
 	{
-		aLiBtn[index].style.filter='';
-		aLiBtn[index].style.opacity='1';
+		clearInterval(obj.timer);
+		obj.timer=null;
 		
-		clearInterval(g_aTimerBtn[index]);
-		g_aTimerBtn[index]=null;
-	}
-	else
-	{
-		aLiBtn[index].style.filter='alpha(opacity:'+alpha+')';
-		aLiBtn[index].style.opacity=alpha/100;
-	}
-	
-	g_aLiBtnAlpha[index]=alpha;
-}
-
-function hideLiBtn(index)
-{
-	if(g_aTimerBtn[index])
-	{
-		clearInterval(g_aTimerBtn[index]);
-	}
-	g_aTimerBtn[index]=setInterval("hideLiBtnInner("+index+")", 30);
-}
-
-function hideLiBtnInner(index)
-{
-	var alpha=g_aLiBtnAlpha[index]-10;
-	
-	if(alpha<=60)
-	{
-		alpha=60;
-		
-		clearInterval(g_aTimerBtn[index]);
-		g_aTimerBtn[index]=null;
-	}
-	aLiBtn[index].style.filter='alpha(opacity:'+alpha+')';
-	aLiBtn[index].style.opacity=alpha/100;
-	
-	g_aLiBtnAlpha[index]=alpha;
-}
-
-function moveUlBtn(index)
-{
-	var iTarget=0;
-	
-	if(index==0)
-	{
-		index=1;
-	}
-	else if(index==aLiBtn.length-1)
-	{
-		index=aLiBtn.length-2;
-	}
-	
-	iTarget=-(index-1)*aLiBtn[0].offsetWidth;
-	
-	if(g_oTimerUl)
-	{
-		clearInterval(g_oTimerUl);
-	}
-	
-	g_oTimerUl=setInterval("moveUlBtnInner("+iTarget+")", 30);
-}
-
-function moveUlBtnInner(iTarget)
-{
-	var iSpeed=(iTarget-oUlBtn.offsetLeft)/7;
-	
-	if(iSpeed>0)
-	{
-		iSpeed=Math.ceil(iSpeed);
-	}
-	else
-	{
-		iSpeed=Math.floor(iSpeed);
-	}
-	
-	if(oUlBtn.offsetLeft==iTarget)
-	{
-		clearInterval(g_oTimerUl);
-		g_oTimerUl=null;
-	}
-	else
-	{
-		oUlBtn.style.left=oUlBtn.offsetLeft+iSpeed+'px';
+		if(fnCallBack)fnCallBack.call(obj);
 	}
 }
-
-function startAutoPlay()
-{
-	if(g_oTimerAutoPlay)
-	{
-		clearInterval(g_oTimerAutoPlay);
-	}
-	
-	g_oTimerAutoPlay=setInterval(gotoNext, 3000);
-}
-
-function stopAutoPlay()
-{
-	if(g_oTimerAutoPlay)
-	{
-		clearInterval(g_oTimerAutoPlay);
-		g_oTimerAutoPlay=null;
-	}
-}
-
-
-
-
-
