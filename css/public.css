@@ -22,16 +22,14 @@ ul{ list-style: none outside none;}
 #click{display:block;height:50px;background:#5f8a31;position:absolute;width:100%;}
 .menu ul li:hover{background:#5f8a31;}
 @font-face{
-	font-family: 'sweet';
-    src:url('font/Biko_Black.otf'),
-    url('font/Biko_Bold.otf'),
-    url('font/Biko_Regular.otf'); /* IE9 */
+	font-family: Sweet;
+    src:url('../font/博洋草书3500.ttf'); /* IE9 */
 }
 @media screen and (max-width:950px){
 	.top{display:none;}
 	.foot{display:none;}
 	.tops{display:block;margin:10px auto;text-align:center;}
-	#sj_menu{display:block;width:100%;height:60px;background:#5f8a31;position: fixed;left: 0;bottom: 0;z-index: 500;font-family:'sweet';}
+	#sj_menu{display:block;width:100%;height:60px;background:#5f8a31;position: fixed;left: 0;bottom: 0;z-index: 500;font-family:Sweet;}
 	#sj_menu li{position:relative;width:16.5%;float:left;text-align:center;line-height:60px;font-size:24px;color:#fff;}
 	#sj_menu li a{color:#111;text-align:center;line-height: 60px;font-size:24px;}
 	#sj_menu li a:hover{width:100%;height:60px;display:block;background:#fff;}
