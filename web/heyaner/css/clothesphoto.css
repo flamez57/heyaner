@@ -1,0 +1,13 @@
+#img{width:100%;margin:auto;}
+.coats table{width:100%;}
+.coats table td{width:25%;}
+.imgs{width:98%;margin:auto;}
+.imgsz{width:98%;margin:auto;}
+.tbl{width:50%;margin:20px auto;font-size:24px;}
+.tbl td{width:25%;}
+#table1{position:absolute;left:10px;top:10px;}
+#table2{display:none;}
+@media screen and (max-width:950px){
+	.content{width:100%;}
+	.tbl td{width:50%;}
+}

@@ -1,0 +1,10 @@
+.shop_top{float:left;margin:10px auto;}
+.shop_left{float:left;width:31%;position:relative;margin:1%;}
+.shop_left div{width:50%;background:#fff;font-size:36px;margin:10px auto;}
+.shop_left img{width:100%;}
+
+@media screen and (max-width:950px){
+	.content{width:90%;}
+	.shop_left{width:100%;}
+	
+}

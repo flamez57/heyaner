@@ -1,8 +1,0 @@
-.wenzhang{width:70%;font-size:28px;margin:10px auto;}
-.content h3{text-align:center;font-size:30px;margin:20px;}
-.shi p{text-align:center;}
-@media screen and (max-width:950px){
-	.wenzhang{width:100%;font-size:24px;}
-	.content h3{font-size:26px;}
-	.content{width:90%;}
-}

@@ -1,0 +1,13 @@
+img{border:none;}
+li{list-style:none;}
+.show_list{width:80%;margin:0 auto;}
+.show_list ul li{border-bottom:1px solid #ccc;}
+.show_list ul li img{width:120px;height:80px;margin:10px;}
+.show_a{float:right;font-size:36px;margin-top:50px;}
+.pages{font-size:24px;width:200px;margin:20px auto;}
+.pages a{margin:10px;}
+@media screen and (max-width:950px){
+	.content{width:90%;}
+	.show_list{width:100%;}
+	.pages{display:none;}
+}
